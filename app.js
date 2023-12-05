@@ -2,12 +2,13 @@
 // Class: DIT/FT/1B/11
 // Admin No: 2210979
 
+// there seems to be something wrong when i run the server...
 
 // required modules
 const input = require('readline-sync')
 
 // modules needed to read the csv fie
-
+const fetch = require('node-fetch'); 
 
 // menu display
 const menu = 
@@ -20,18 +21,15 @@ const menu =
 "6. Filter car parks based on certain characters\n" +
 "7. Filter car park by gantry height\n";
 
+
+
+
 while (true) {
     console.log(menu);
     var selection = parseInt(input.question(">> "));
 
     switch(selection) {
-        case 1:
-            
-            console.log(results);
-            break;
         
-        default:
-            return;
             
     }
 }
