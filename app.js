@@ -4,6 +4,7 @@
 
 // there seems to be something wrong when i run the server.
 // its on http://localhost:8081
+// just use the above server if the console gives the response http://::1:8081
 
 // required modules
 const input = require('readline-sync')
@@ -12,16 +13,6 @@ const input = require('readline-sync')
 const fetch = require('node-fetch'); 
 const { response } = require('express');
 
-// menu display
-const menu = 
-"Select which option you wan to do\n" +
-"1. Display various types of car park\n" +
-"2. Display type of parking system\n" +
-"3. Filter free-parking type\n" +
-"4. Car parks with night parking\n" +
-"5. Filter car parks based on area\n" +
-"6. Filter car parks based on certain characters\n" +
-"7. Filter car park by gantry height\n";
 
 // data variable from server (mostly taken from endpoint)
 let readAllCarPark;
@@ -57,6 +48,7 @@ function getCarParkType(cpType) {
     })
 }
 
+// fetches the endpoint data for carparks with night parking
 function nightParking(nightPark) {
     return new Promise((resolve, reject) => {
         const customUrlNP = 'http://localhost:8081/byNightParking/' + nightPark;
@@ -101,15 +93,32 @@ async function getGantryHeight(gantryHeight) {
     byGantryHeight = await gantryHeightt(gantryHeight);
 }
 
+getAllData();
+retriveCP();
+
+// menu display
+
+const menu = 
+"Select which option you wan to do\n" +
+"1. Display various types of car park\n" +
+"2. Display type of parking system\n" +
+"3. Filter free-parking type\n" +
+"4. Car parks with night parking\n" +
+"5. Filter car parks based on area\n" +
+"6. Filter car parks based on certain characters\n" +
+"7. Filter car park by gantry height";
+
 
 // this while loop is for menu selection and for displaying the different options.
 while (true) {
     console.log(menu);
+    
     var selection = parseInt(input.question(">> "));
 
     switch(selection) {
         case 1:
             
+
             break;
             
     }
