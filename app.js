@@ -6,9 +6,6 @@
 // its on http://localhost:8081
 // just use the above server if the console gives the response http://::1:8081
 
-// required modules
-const input = require('readline-sync')
-
 // modules needed to read the csv fie
 const fetch = require('node-fetch'); 
 const { response } = require('express');
@@ -78,7 +75,11 @@ function gantryHeightt(gantryHite) {
 // creating async functions
 
 async function getAllData() {
-    readAllCarPark = await loadAllData();
+    try {
+        readAllCarPark = await loadAllData();
+    } catch (error) {
+        console.error("Error loading data:", error);
+    }
 }
 
 async function retriveCP() {
@@ -96,10 +97,45 @@ async function getGantryHeight(gantryHeight) {
 getAllData();
 retriveCP();
 
+setTimeout(function () {
+    console.log("Hang on, we're loading the data.")
+    console.log(menu);
+});
+
+// functions to display different menu options
+
+function typesOfCarPark() {
+    if (byType) {
+        byType.forEach(carPark => {
+            console.log(`car park number: ${carPark.number}}`);
+            console.log(`address: ${carPark.address}`);
+            console.log(`car park type: ${carPark.type}`);
+        })
+    } else {
+        console.log("data is not available. please try again.")
+    }
+}
+
+function parkingSystemTypes() {
+    if (readAllCarPark) {
+        readAllCarPark.forEach(carPark => {
+            console.log(`Car Park Number: ${carPark.number}`);
+            console.log(`Address: ${carPark.address}`);
+            console.log("--------------");
+        })
+    } else {
+        console.log("data not available. please try again.")
+    }
+}
+
+function filterCPbyArea(x1, y1, x2, y2) {
+    
+}
+
 // menu display
 
 const menu = 
-"Select which option you wan to do\n" +
+"Select which option you want to do\n" +
 "1. Display various types of car park\n" +
 "2. Display type of parking system\n" +
 "3. Filter free-parking type\n" +
@@ -112,13 +148,29 @@ const menu =
 // this while loop is for menu selection and for displaying the different options.
 while (true) {
     console.log(menu);
-    
+    const input = require('readline-sync')
     var selection = parseInt(input.question(">> "));
 
     switch(selection) {
         case 1:
-            
+            console.log("Here is your data:");
 
+
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        case 7:
+            break;
+        default:
+            console.log("Invalid option. Please try again")
             break;
             
     }
