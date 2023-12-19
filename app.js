@@ -5,10 +5,11 @@
 // there seems to be something wrong when i run the server.
 // its on http://localhost:8081
 // just use the above server if the console gives the response http://::1:8081
+// i can't change the server_3v3.js file according to the brief
 
 // modules needed to read the csv fie
 const fetch = require('node-fetch'); 
-const { response } = require('express');
+const { response } = require('express'); // automatically appeared
 
 
 // data variable from server (mostly taken from endpoint)
@@ -102,34 +103,65 @@ setTimeout(function () {
     console.log(menu);
 });
 
+// to sort
+
+function smartSort(sortingOps, sortData, sortMethod, sortAttr) {
+    return sortingOps(sortMethod, sortData, sortAttr);
+}
+
+// this sorts the data in the json array
+function jsonArraySort(sortBy, sortValue, toSort) {
+    var finalSort = [...sortValue];
+    // if data were to be sorted in ascending order
+    if (sortBy == 'asc' || sortBy == 'ascending') {
+        finalSort.sort(function(a, b) {
+            if ((a[toSort]) < (b[toSort])) {
+                return 1;
+            } else if ((a[toSort]) > (b[toSort])) {
+                return -1
+            }
+            return 0;
+        })
+    }
+    // if data were to be sorted in descending order
+    if (sortBy == 'dsc' || sortBy == 'descending') {
+        finalSort.sort(function(a, b) {
+            if ((a[toSort]) > (b[toSort])) {
+                return 1;
+            } else if ((a[toSort]) < (b[toSort])) {
+                return -1
+            }
+            return 0;
+        })
+    }
+}
 // functions to display different menu options
+function displayCarParkTypes() {
 
-function typesOfCarPark() {
-    if (byType) {
-        byType.forEach(carPark => {
-            console.log(`car park number: ${carPark.number}}`);
-            console.log(`address: ${carPark.address}`);
-            console.log(`car park type: ${carPark.type}`);
-        })
-    } else {
-        console.log("data is not available. please try again.")
-    }
 }
 
-function parkingSystemTypes() {
-    if (readAllCarPark) {
-        readAllCarPark.forEach(carPark => {
-            console.log(`Car Park Number: ${carPark.number}`);
-            console.log(`Address: ${carPark.address}`);
-            console.log("--------------");
-        })
-    } else {
-        console.log("data not available. please try again.")
-    }
-}
-
-function filterCPbyArea(x1, y1, x2, y2) {
+function typeOfParkingSystem() {
     
+}
+
+function filterFreeParkingType() {
+
+}
+
+function carParkWithNightParking() {
+
+}
+
+function carParkBasedOnArea() {
+
+}
+
+function carParkBasedOnCharacters() {
+
+}
+
+function carParkByGanrtryHeight() {
+
 }
 
 // menu display
@@ -154,7 +186,6 @@ while (true) {
     switch(selection) {
         case 1:
             console.log("Here is your data:");
-
 
             break;
         case 2:
