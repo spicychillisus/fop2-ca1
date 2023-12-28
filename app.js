@@ -7,161 +7,41 @@
 // just use the above server if the console gives the response http://::1:8081
 // i can't change the server_3v3.js file according to the brief
 
-// modules needed to read the csv fie
+// modules needed
 const fetch = require('node-fetch'); 
-const { response } = require('express'); // automatically appeared
+const input = require('readline-sync')
 
 
 // data variable from server (mostly taken from endpoint)
 let readAllCarPark;
-let byType;
+let byType; // gets surface car park types
 let byNightParking;
-let byGantryHeight;
+let byGantryHeight; // this is an integer
 
 
-// function to load all data
-function loadAllData() {
-    return new Promise((resolve, reject) => {
-        fetch('http://localhost:8081/readAllCarPark')
-            .then(response => response.json())
-
-            .then(function (data) {
-                resolve(data)
-
-            });
-    });
-}
-
-// fetch endpoint data
-function getCarParkType(cpType) {
-    return new Promise((resolve, reject) => {
-        const customUrl = 'http://localhost:8081/byType/' + cpType; // cpType means 
-        fetch(customUrl)
-            .then(response => response.json())
-
-            .then(function (data) {
-                resolve(data)
-
-            });
-    })
-}
-
-// fetches the endpoint data for carparks with night parking
-function nightParking(nightPark) {
-    return new Promise((resolve, reject) => {
-        const customUrlNP = 'http://localhost:8081/byNightParking/' + nightPark;
-        fetch(customUrlNP)
-            .then(response => response.json())
-
-            .then(function (data) {
-                resolve(data)
-
-            });
-    })
-}
-
-function gantryHeightt(gantryHite) {
-    return new Promise((resolve, reject) => {
-        const customUrl = 'http://localhost:8081/byGantryHeight/' + parseInt(gantryHite);
-        fetch(customUrl)
-            .then(response => response.json())
-
-            .then(function (data) {
-                resolve(data)
-
-            });
-    })
-}
-
-// creating async functions
-
-async function getAllData() {
-    try {
-        readAllCarPark = await loadAllData();
-    } catch (error) {
-        console.error("Error loading data:", error);
-    }
-}
-
-async function retriveCP() {
-    byType = await getCarParkType();
-}
-
-async function getNightParking() {
-    byNightParking = await nightParking(nightPark);
-}
-
-async function getGantryHeight(gantryHeight) {
-    byGantryHeight = await gantryHeightt(gantryHeight);
-}
-
-getAllData();
-retriveCP();
-
-setTimeout(function () {
-    console.log("Hang on, we're loading the data.")
-    console.log(menu);
-});
-
-// to sort
-
-function smartSort(sortingOps, sortData, sortMethod, sortAttr) {
-    return sortingOps(sortMethod, sortData, sortAttr);
-}
-
-// this sorts the data in the json array
-function jsonArraySort(sortBy, sortValue, toSort) {
-    var finalSort = [...sortValue];
-    // if data were to be sorted in ascending order
-    if (sortBy == 'asc' || sortBy == 'ascending') {
-        finalSort.sort(function(a, b) {
-            if ((a[toSort]) < (b[toSort])) {
-                return 1;
-            } else if ((a[toSort]) > (b[toSort])) {
-                return -1
-            }
-            return 0;
-        })
-    }
-    // if data were to be sorted in descending order
-    if (sortBy == 'dsc' || sortBy == 'descending') {
-        finalSort.sort(function(a, b) {
-            if ((a[toSort]) > (b[toSort])) {
-                return 1;
-            } else if ((a[toSort]) < (b[toSort])) {
-                return -1
-            }
-            return 0;
-        })
-    }
-}
-// functions to display different menu options
-function displayCarParkTypes() {
-
-}
-
-function typeOfParkingSystem() {
+// get data
+function getData() {
+    let url = 'http://localhost:8081/readAllCarPark';
     
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the retrieved data here
+            console.log(data); // Replace this with your handling logic
+        })
+        .catch(error => {
+            // Handle errors here
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
 
-function filterFreeParkingType() {
-
-}
-
-function carParkWithNightParking() {
-
-}
-
-function carParkBasedOnArea() {
-
-}
-
-function carParkBasedOnCharacters() {
-
-}
-
-function carParkByGanrtryHeight() {
-
+function surfaceCarPark() {
+    let url = 'http://localhost:8081/byType/' + byType // byType is the Surface Car Park types
 }
 
 // menu display
@@ -180,7 +60,6 @@ const menu =
 // this while loop is for menu selection and for displaying the different options.
 while (true) {
     console.log(menu);
-    const input = require('readline-sync')
     var selection = parseInt(input.question(">> "));
 
     switch(selection) {
