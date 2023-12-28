@@ -35,7 +35,7 @@ function loadAllData() {
 // fetch endpoint data
 function getCarParkType(cpType) {
     return new Promise((resolve, reject) => {
-        const customUrl = 'http://localhost:8081/byType/' + cpType;
+        const customUrl = 'http://localhost:8081/byType/' + cpType; // cpType means 
         fetch(customUrl)
             .then(response => response.json())
 
