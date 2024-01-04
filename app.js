@@ -1,6 +1,6 @@
 // Name: Reyes Asher Benedict Calaminos
 // Class: DIT/FT/1B/11
-// Admin No: 2210979
+// Admin No: p2210979
 
 // there seems to be something wrong when i run the server.
 // its on http://localhost:8081
@@ -12,20 +12,17 @@ const fetch = require('node-fetch');
 const input = require('readline-sync')
 
 
-// data variable from server (mostly taken from endpoint)
-let readAllCarPark;
-let byType; // gets surface car park types
-let byNightParking;
-let byGantryHeight; // this is an integer
-
-
-// get data
+// get all data
 function getData() {
     let url = 'http://localhost:8081/readAllCarPark';
     
     fetch(url)
+    // this is if ur network is good
         .then(response => {
-            if (!response.ok) {
+            if (response.ok) {
+                console.log("Success!")
+            } else {
+                console.log("There seems to be an issue.")
                 throw new Error('Network response was not ok');
             }
             return response.json();
@@ -37,13 +34,84 @@ function getData() {
         .catch(error => {
             // Handle errors here
             console.error('There was a problem with the fetch operation:', error);
+            console.log("Error detected. Please see error message.")
         });
 }
 
-function surfaceCarPark() {
-    let url = 'http://localhost:8081/byType/' + byType // byType is the Surface Car Park types
+function surfaceCarPark(byType) {
+    let url = `http://localhost:8081/byType/${byType}` // byType is the Surface Car Park types
+
+    fetch(url)
+        .then(response => {
+            if (response.ok) { // if response is successful
+                console.log("Success!")
+            } else {
+                console.log("There seems to be an issue.")
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the retrieved data here
+            console.log(data); // Replace this with your handling logic
+        })
+        .catch(error => {
+            // Handle errors here
+            console.error('There was a problem with the fetch operation:', error);
+            console.log("Error detected. Please see error message.")
+        });
 }
 
+function nightParking(byNightParking) {
+    let url = `http://localhost:8081/byType/${byNightParking}` 
+
+    fetch(url)
+    // this is if ur network is good
+        .then(response => {
+            if (response.ok) {
+                console.log("Success!")
+            } else {
+                console.log("There seems to be an issue.")
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the retrieved data here
+            console.log(data); // Replace this with your handling logic
+        })
+        .catch(error => {
+            // Handle errors here
+            console.error('There was a problem with the fetch operation:', error);
+            console.log("Error detected. Please see error message.")
+        });
+
+}
+
+function gantryHeight(byGantryHeight) {
+    let url = `http://localhost:8081/byGantryHeight/${byGantryHeight}` // this is declared as an integer
+
+    fetch(url)
+    // this is if ur network is good
+        .then(response => {
+            if (response.ok) {
+                console.log("Success!")
+            } else {
+                console.log("There seems to be an issue.")
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the retrieved data here
+            console.log(data); // Replace this with your handling logic
+        })
+        .catch(error => {
+            // Handle errors here
+            console.error('There was a problem with the fetch operation:', error);
+            console.log("Error detected. Please see error message.")
+        });
+}
 // menu display
 
 const menu = 
@@ -64,8 +132,7 @@ while (true) {
 
     switch(selection) {
         case 1:
-            console.log("Here is your data:");
-
+            getData();
             break;
         case 2:
             break;
