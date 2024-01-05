@@ -146,7 +146,7 @@ function filterOnChar(char) {
                                         car_park_no: e.car_park_no,
                                         address: e.address
                                     }))
-            console.log(filteredData)
+            console.log(displayData)
         })
 
 }
@@ -291,7 +291,7 @@ if (selection == 1) {
     const validAlphabets = new RegExp("[A-Z]"); // set boundary
     console.log("input the first 1 to 2 characters of a car park number");
     const areaLetters = (input.question(">> ").toUpperCase());
-    if (validAlphabets.test(areaLetters) && areaLetters.length == 2) {
+    if (validAlphabets.test(areaLetters) && areaLetters.length <= 2) {
         filterOnChar(areaLetters);
     } else {
         console.log("max of 2 letters")
