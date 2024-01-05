@@ -4,8 +4,7 @@
 
 // there seems to be something wrong when i run the server.
 // its on http://localhost:8081
-// just use the above server if the console gives the response http://::1:8081
-// i can't change the server_3v3.js file according to the brief
+// just use the above endpoint if the console gives the response http://::1:8081
 
 // modules needed
 const input = require('readline-sync')
@@ -39,6 +38,12 @@ function typesOfCarPark(type) {
 
 function typeOfParkingSystem(parkingSystem) {
     let url = `http://localhost:8081/readAllCarPark`; // data is fetched here because no endpoint for type of parking system
+    let parkingTypes = ["ELECTRONIC PARKING", "COUPON PARKING"];
+    if (parkingSystem == parkingTypes[0]) {
+        console.log("Car parks with electronic parking systems:")
+    } else if (parkingSystem == parkingTypes[1]) {
+        console.log("Car parks with coupon parking systems:")
+    }
     fetch(url)
         .then(response => {
             if (response.ok) {
@@ -53,7 +58,8 @@ function typeOfParkingSystem(parkingSystem) {
                 address: e.address,
                 type_of_parking_system: e.type_of_parking_system
             }))
-            console.log(newData)
+            const filteredData = newData.filter(e => e.type_of_parking_system == parkingSystem)
+            console.log(filteredData)
         })
 }
 
@@ -75,6 +81,81 @@ function byNightParking(nightParking) {
             console.log(newData)
         })
 }
+
+function filterByGantryHeight(gantryHeight) {
+    let url = `http://localhost:8081/byGantryHeight/${Math.round(gantryHeight)}`
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error('network laosai')
+            }
+        })
+        .then(data => {
+            const newData = data.map(e => ({
+                car_park_no: e.car_park_no,
+                address: e.address,
+                gantry_height: e.gantry_height
+            }))
+            console.log(newData)
+        })
+}
+
+function freeParkingType(parkingType) {
+    let url = `http://localhost:8081/readAllCarPark`;
+    let freeParkingTypes = ["NO", "SUN & PH FR 1PM-10.30PM", "SUN & PH FR 7AM-10.30PM"];
+    if (parkingType == freeParkingTypes[0]) {
+        console.log("Here is your data for carparks with no free parking: ")
+    }
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error('network laosai')
+            }
+        })
+        .then(data => {
+            const newData = data.map(e => ({
+                car_park_no: e.car_park_no,
+                address: e.address,
+                free_parking: e.free_parking
+            }))
+            const filteredData = newData.filter(e => e.free_parking == parkingType);
+            console.log(filteredData);
+        })
+}
+
+function filterOnChar(char) {
+    let charFilter = (char.toUpperCase().toString())
+    let url = `http://localhost:8081/readAllCarPark`;
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error('network laosai')
+            }
+        })
+        .then(data => {
+            const displayData = data
+                                    .filter(cp => {
+                                        return cp.car_park_no.toUpperCase().startsWith(charFilter)
+                                    }).map(e => ({
+                                        car_park_no: e.car_park_no,
+                                        address: e.address
+                                    }))
+            console.log(filteredData)
+        })
+
+}
+
+function filterByArea(x, y) {
+    let url = `http://localhost:8081/readAllCarPark`;
+
+}
+
 
 // menu display
 
@@ -149,18 +230,39 @@ if (selection == 1) {
     var qn = parseInt(input.question(">> "));
     switch(qn) {
         case 1:
-            typeOfParkingSystem(parkingTypes[0])
+            typeOfParkingSystem(parkingTypes[1])
             break;
         case 2:
-            typeOfParkingSystem(parkingTypes[1])
+            typeOfParkingSystem(parkingTypes[0])
             break;
         default:
             console.log("try again")
-            break;
+            return;
     }
 
 } else if (selection == 3) {
+    let parkingChoices = {
+        1: "NO",
+        2: "SUN & PH FR 1PM-10.30PM",
+        3: "SUN & PH FR 7AM-10.30PM"
+    }
+    console.log("Choose which type you want to see.")
+    const parkingSelection = parseInt(input.question(">> "));
 
+    switch(parkingSelection) {
+        case 1:
+            freeParkingType(parkingChoices[1]);
+            break;
+        case 2:
+            freeParkingType(parkingChoices[2]);
+            break;
+        case 3:
+            freeParkingType(parkingChoices[3]);
+            break;
+        default:
+            console.log("dllm");
+            return;
+    }
 } else if (selection == 4) {
     console.log("1. see car park with night parking")
     console.log("2. see car park with no night parking")
@@ -179,12 +281,31 @@ if (selection == 1) {
     }
    
 } else if (selection == 5) {
+    console.log("enter the x coord:");
+    const x_coordinate = parseInt(input.question(">> "));
+    console.log("enter the y coord:");
+    const y_coordinate = parseInt(input.question(">> "));
+    filterByArea(x_coordinate, y_coordinate)
 
 } else if (selection == 6) {
+    const validAlphabets = new RegExp("[A-Z]"); // set boundary
+    console.log("input the first 1 to 2 characters of a car park number");
+    const areaLetters = (input.question(">> ").toUpperCase());
+    if (validAlphabets.test(areaLetters) && areaLetters.length == 2) {
+        filterOnChar(areaLetters);
+    } else {
+        console.log("max of 2 letters")
+    }
 
 } else if (selection == 7) {
-
+    console.log("enter a whole number from 2 to 10");
+    const height = Math.round(input.question(">> "));
+    if (height < 2 || height > 10) {
+        console.log("invalid response.")
+    } else {
+        filterByGantryHeight(height);
+    }
 } else {
-
+    console.log("invalid option. choose again.")
 }
 

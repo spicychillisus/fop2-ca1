@@ -1,6 +1,1 @@
-let dataset = {
-    1: 'basemnt',
-    2: 'test'
-}
-
-console.log(dataset[1]);
+console.log(parseInt(Math.round(1.98)))
