@@ -8,110 +8,74 @@
 // i can't change the server_3v3.js file according to the brief
 
 // modules needed
-const fetch = require('node-fetch'); 
 const input = require('readline-sync')
 
-
-// get all data
-function getData() {
-    let url = 'http://localhost:8081/readAllCarPark';
+// 1)
+// ${encodeURIComponent(params)} is :type
+function typesOfCarPark(type) {
+    let string = type.toString();
+    let parameter = string.toUpperCase();
+    let url = `http://localhost:8081/byType/${encodeURIComponent(parameter)}`
     
     fetch(url)
-    // this is if ur network is good
         .then(response => {
-            if (response.ok) {
-                console.log("Success!")
-            } else {
-                console.log("There seems to be an issue.")
+            if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
+        // filter the data
         .then(data => {
-            // Handle the retrieved data here
-            console.log(data); // Replace this with your handling logic
+            const newData = data.map(item =>({
+                car_park_no: item.car_park_no,
+                address: item.address,
+                car_park_type: item.car_park_type
+            }))
+            console.log(newData);
         })
-        .catch(error => {
-            // Handle errors here
-            console.error('There was a problem with the fetch operation:', error);
-            console.log("Error detected. Please see error message.")
-        });
+        
+
 }
 
-function surfaceCarPark(byType) {
-    let url = `http://localhost:8081/byType/${byType}` // byType is the Surface Car Park types
-
+function typeOfParkingSystem(parkingSystem) {
+    let url = `http://localhost:8081/readAllCarPark`; // data is fetched here because no endpoint for type of parking system
     fetch(url)
         .then(response => {
-            if (response.ok) { // if response is successful
-                console.log("Success!")
-            } else {
-                console.log("There seems to be an issue.")
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Handle the retrieved data here
-            console.log(data); // Replace this with your handling logic
-        })
-        .catch(error => {
-            // Handle errors here
-            console.error('There was a problem with the fetch operation:', error);
-            console.log("Error detected. Please see error message.")
-        });
-}
-
-function nightParking(byNightParking) {
-    let url = `http://localhost:8081/byType/${byNightParking}` 
-
-    fetch(url)
-    // this is if ur network is good
-        .then(response => {
             if (response.ok) {
-                console.log("Success!")
+                return response.json()
             } else {
-                console.log("There seems to be an issue.")
-                throw new Error('Network response was not ok');
+                throw new Error('network laosai')
             }
-            return response.json();
         })
         .then(data => {
-            // Handle the retrieved data here
-            console.log(data); // Replace this with your handling logic
+            const newData = data.map(e => ({
+                car_park_no: e.car_park_no,
+                address: e.address,
+                type_of_parking_system: e.type_of_parking_system
+            }))
+            console.log(newData)
         })
-        .catch(error => {
-            // Handle errors here
-            console.error('There was a problem with the fetch operation:', error);
-            console.log("Error detected. Please see error message.")
-        });
-
 }
 
-function gantryHeight(byGantryHeight) {
-    let url = `http://localhost:8081/byGantryHeight/${byGantryHeight}` // this is declared as an integer
-
+// 4)
+function byNightParking(nightParking) {
+    let url = `http://localhost:8081/byNightParking/${encodeURIComponent((nightParking.toString()).toUpperCase())}`
     fetch(url)
-    // this is if ur network is good
         .then(response => {
-            if (response.ok) {
-                console.log("Success!")
-            } else {
-                console.log("There seems to be an issue.")
+            if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then(data => {
-            // Handle the retrieved data here
-            console.log(data); // Replace this with your handling logic
+            const newData = data.map(e => ({
+                car_park_no: e.car_park_no,
+                address: e.address
+            }))
+            console.log(newData)
         })
-        .catch(error => {
-            // Handle errors here
-            console.error('There was a problem with the fetch operation:', error);
-            console.log("Error detected. Please see error message.")
-        });
 }
+
 // menu display
 
 const menu = 
@@ -124,33 +88,103 @@ const menu =
 "6. Filter car parks based on certain characters\n" +
 "7. Filter car park by gantry height";
 
+console.log(menu);
+var selection = parseInt(input.question(">> "));
 
-// this while loop is for menu selection and for displaying the different options.
-while (true) {
-    console.log(menu);
-    var selection = parseInt(input.question(">> "));
+// menu display
+if (selection == 1) {
+    // object literal to give options to the different types of car park
+    let typesOfCP = {
+        1: "Basement Car Park",
+        2: "Covered Car Park",
+        3: "MECHANISED CAR PARK",
+        4: "MECHANISED AND SURFACE CAR PARK",
+        5: "MULTI-STOREY CAR PARK",
+        6: "SURFACE CAR PARK",
+        7: "SURFACE/MULTI-STOREY CAR PARK"
+    }
+    console.log("what type of car park data do u want to see?");
+    const carParks = 
+        "1. Basement Car Park\n" +
+        "2. Covered Car Park\n" +
+        "3. Mechanised Car Park\n" +
+        "4. Mechanised and Surface Car Park\n" +
+        "5. Multi-Storey Car Park\n" +
+        "6. Surface Car Park\n" +
+        "7. SURFACE/MULTI-STOREY CAR PARK";
+    console.log(carParks)
+    const qn = parseInt(input.question(">> "));
 
-    switch(selection) {
+    switch(qn) {
         case 1:
-            getData();
-            break;
+            typesOfCarPark(typesOfCP[1]);
+            break
         case 2:
+            typesOfCarPark(typesOfCP[2]);
             break;
         case 3:
+            typesOfCarPark(typesOfCP[3]);
             break;
         case 4:
+            typesOfCarPark(typesOfCP[4]);
             break;
         case 5:
+            typesOfCarPark(typesOfCP[5]);
             break;
         case 6:
+            typesOfCarPark(typesOfCP[6]);
             break;
         case 7:
+            typesOfCarPark(typesOfCP[7]);
             break;
         default:
-            console.log("Invalid option. Please try again")
-            break;
-            
+            console.log("Please enter a valid number from 1 to 7.");
+            return
     }
-}
+} else if (selection == 2) {
+    console.log("what type of parking system do u want to see?");
+    console.log("1. Coupon Parking");
+    console.log("2. Electronic Parking")
+    let parkingTypes = ["ELECTRONIC PARKING", "COUPON PARKING"];
+    var qn = parseInt(input.question(">> "));
+    switch(qn) {
+        case 1:
+            typeOfParkingSystem(parkingTypes[0])
+            break;
+        case 2:
+            typeOfParkingSystem(parkingTypes[1])
+            break;
+        default:
+            console.log("try again")
+            break;
+    }
 
+} else if (selection == 3) {
+
+} else if (selection == 4) {
+    console.log("1. see car park with night parking")
+    console.log("2. see car park with no night parking")
+    let choices = ["YES", "NO"];
+    const decision = parseInt(input.question(">> "));
+    switch(decision) {
+        case 1:
+            byNightParking(choices[0]);
+            break;
+        case 2:
+            byNightParking(choices[1]);
+            break;
+        default:
+            console.log("please try again please");
+            break;
+    }
+   
+} else if (selection == 5) {
+
+} else if (selection == 6) {
+
+} else if (selection == 7) {
+
+} else {
+
+}
 
