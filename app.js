@@ -63,7 +63,6 @@ function typeOfParkingSystem(parkingSystem) {
         })
 }
 
-// 4)
 function byNightParking(nightParking) {
     let url = `http://localhost:8081/byNightParking/${encodeURIComponent((nightParking.toString()).toUpperCase())}`
     fetch(url)
@@ -141,19 +140,43 @@ function filterOnChar(char) {
         .then(data => {
             const displayData = data
                                     .filter(cp => {
-                                        return cp.car_park_no.toUpperCase().startsWith(charFilter)
+                                        let result = cp.car_park_no.toUpperCase().startsWith(charFilter); // gives out results based on the characters inputted
+                                        return result;
                                     }).map(e => ({
                                         car_park_no: e.car_park_no,
                                         address: e.address
                                     }))
             console.log(displayData)
         })
+        .catch(error => {
+            console.error(error);
+        })
 
 }
 
-function filterByArea(x, y) {
+function filterByArea(x1, y1, x2, y2) {
     let url = `http://localhost:8081/readAllCarPark`;
-
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error('network laosai')
+            }
+        })
+        .then(data => {
+            const displayData = data.filter(disp => {
+                
+            })
+            }).map(e => ({
+                car_park_no: e.car_park_no,
+                address: e.address,
+                x_coord: e.x_coord,
+                y_coord: e.y_coord
+            }))
+                
+        })
+        
 }
 
 
@@ -185,6 +208,7 @@ if (selection == 1) {
         7: "SURFACE/MULTI-STOREY CAR PARK"
     }
     console.log("what type of car park data do u want to see?");
+    // menu to give the different types of car park
     const carParks = 
         "1. Basement Car Park\n" +
         "2. Covered Car Park\n" +
@@ -281,11 +305,16 @@ if (selection == 1) {
     }
    
 } else if (selection == 5) {
-    console.log("enter the x coord:");
-    const x_coordinate = parseInt(input.question(">> "));
-    console.log("enter the y coord:");
-    const y_coordinate = parseInt(input.question(">> "));
-    filterByArea(x_coordinate, y_coordinate)
+    console.log("enter the first x coord:");
+    const x_coord_1 = parseFloat(input.question(">> "));
+    console.log("enter the second x coord:");
+    const x_coord_2 = parseFloat(input.question(">> "))
+    console.log("enter the first y coord:");
+    const y_coord_1 = parseFloat(input.question(">> "))
+    console.log("enter the second y coord:");
+    const y_coord_2 = parseFloat(input.question(">> "))
+
+    filterByArea(x_coord_1, y_coord_1, x_coord_2, y_coord_2);
 
 } else if (selection == 6) {
     const validAlphabets = new RegExp("[A-Z]"); // set boundary
