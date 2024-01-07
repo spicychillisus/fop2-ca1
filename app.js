@@ -8,7 +8,6 @@
 
 // modules needed
 const input = require('readline-sync')
-
 // 1)
 // ${encodeURIComponent(params)} is :type
 function typesOfCarPark(type) {
@@ -161,23 +160,18 @@ function filterByArea(x1, y1, x2, y2) {
             if (response.ok) {
                 return response.json()
             } else {
-                throw new Error('network laosai')
+                throw new Error("yea you fucked")
             }
         })
         .then(data => {
-            const displayData = data.filter(disp => {
-                
+            const newData = data.map(e => {
+
             })
-            }).map(e => ({
-                car_park_no: e.car_park_no,
-                address: e.address,
-                x_coord: e.x_coord,
-                y_coord: e.y_coord
-            }))
-                
         })
-        
+        .catch()
 }
+    
+
 
 
 // menu display
