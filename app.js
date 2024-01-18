@@ -383,7 +383,7 @@ while (true) {
         return filterByArea(x_coord_1, y_coord_1, x_coord_2, y_coord_2);
     
     } else if (selection == 6) {
-        const validAlphabets = new RegExp("[A-Za-z0-9]")        ; // set boundary
+        const validAlphabets = new RegExp("[A-Za-z0-9]"); // set boundary
         console.log("input the first 4 characters of a car park number");
         const areaLetters = (input.question(">> ").toUpperCase());
         if (validAlphabets.test(areaLetters) && areaLetters.length <= 4) {
@@ -393,9 +393,9 @@ while (true) {
         }
     
     } else if (selection == 7) {
-        console.log("enter a whole number from 2 to 10");
+        console.log("enter a whole number from 1 to 10");
         const height = parseFloat(input.question(">> ")); // decimal values will be rounded to the next integer
-        if (height < 2 || height > 10) {
+        if (height < 1 || height > 10) {
             console.log("invalid response.")
         } else {
             return filterByGantryHeight(height);
