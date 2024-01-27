@@ -5,5 +5,15 @@
     "nodejs": "^0.0.0",
     "nodemon": "^3.0.2",
     "readline-sync": "^1.4.10"
-  }
+  },
+  "name": "2210979_reyesasherbenedictcalaminos",
+  "version": "1.0.0",
+  "description": "yes",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
 }
