@@ -14,6 +14,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "hanni",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spicychillisus/fop2-ca1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/spicychillisus/fop2-ca1/issues"
+  },
+  "homepage": "https://github.com/spicychillisus/fop2-ca1#readme"
 }
