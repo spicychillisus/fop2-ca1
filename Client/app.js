@@ -4,71 +4,48 @@
 // Admin No: p2210979
 //
 
-// get variables from html file
-const carParkLetters = document.getElementById('carParkLetters');
-const carParkNumber = document.getElementById('carParkNumber');
-const carParkHeight = document.getElementById('carParkHeight');
-const carParkNumFilter = carParkLetters + carParkNumber;
+// functions shown below here are the data being fetched from the api
+// we will export this function as a module
+// fetch api that was used in ca1 has been converted to async and await (for easier purposes)
 
-//import { filterByGantryHeight, filterByCharacter } from './fetch.js';
-
-
-// functions shown below here are the data being sent to the front end
-function filterByGantryHeight(gantryHeight) {
+export async function filterByGantryHeight(gantryHeight) {
     let url = `http://localhost:8081/byGantryHeight/${parseFloat(gantryHeight)}`
-    // ${parseFloat(gantryHeight)}: this part allows the user to enter any decimal or whole number they wish
-    fetch(url)
-        .then(response => {
-            if (response.ok) {
-                return response.json()
-            } else {
-                throw new Error('network laosai')
-            }
-        })
-        .then(data => {
-            const newData = data.map(e => ({
-                car_park_no: e.car_park_no,
-                address: e.address,
-                gantry_height: e.gantry_height
-            }))
-            console.log(newData)
-        })
-        .catch(error => {
-            console.error(error)
-        })
+    try {
+        const response = await fetch(url);
+        // error handling..?
+        if (!response.ok) {
+            throw new Error('haha')
+        }
+        // fetches the data in a form of json
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error)
+    }
 }
-
-document.addEventListener("DOMContentLoaded", (event) => {
-    
-})
 
 // filter by car park characters
-function filterOnChar(char) {
-    let charFilter = (char.toUpperCase().toString())
+// we will export this function as a module
+export async function filterOnChar(char) {
+    let charFilter = char.toUpperCase();
     let url = `http://localhost:8081/readAllCarPark`;
-    fetch(url)
-        .then(response => {
-            if (response.ok) {
-                return response.json()
-            } else {
-                throw new Error('network laosai')
-            }
-        })
-        .then(data => {
-            const displayData = data
-                                    .filter(cp => {
-                                        let result = cp.car_park_no.toUpperCase().startsWith(charFilter); // gives out results based on the characters inputted
-                                        return result;
-                                    }).map(e => ({
-                                        car_park_no: e.car_park_no,
-                                        address: e.address
-                                    }))
-            console.log(displayData)
-        })
-        .catch(error => {
-            console.error(error);
-        })
-
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        const displayData = data
+            .filter(cp => cp.car_park_no.toUpperCase().startsWith(charFilter))
+            .map(e => ({ 
+                car_park_no: e.car_park_no, 
+                address: e.address 
+            }));
+        return displayData;
+    } catch (error) {
+        throw error;
+    }
 }
 
-filterOnChar(carParkNumFilter)
+
+//filterOnChar(carParkNumFilter)

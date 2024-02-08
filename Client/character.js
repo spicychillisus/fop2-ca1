@@ -20,10 +20,10 @@ template.innerHTML = `
         }
     </style>
     <div>
-        <h3 id='activity'>ACTIVITY GOES HERE</h3>
+        <h3>car park number based on characters</h3>
         <hr>
-        <h5>Type: <span id='activityType'>Type of activity</span></h5>
-        <h5>Number of Participant(s): <span id='participant'>No. of Participant</span></h5>
+        <h5>Car Park Number: <span id='car_park_no'>Type of activity</span></h5>
+        <h5>Address: <span id='address'>No. of Participant</span></h5>
     </div>
 `;
 
@@ -38,29 +38,22 @@ class carParkCharacter extends HTMLElement {
 
     // define attributes you need
     static get observedAttributes() {
-        return ['activity', 'activitytype', 'participant'];
+        return ['car_park_no', 'address'];
     }
 
     // link attributes to properties 
-    get activity() {
-        return this.getAttribute('activity');
+    get car_park_no() {
+        return this.getAttribute('car_park_no');
     }
-    set activity(value) {
-        this.setAttribute('activity', value);
-    }
-
-    get activitytype() {
-        return this.getAttribute('activitytype');
-    }
-    set activitytype(value) {
-        this.setAttribute('activitytype', value);
+    set car_park_no(value) {
+        this.setAttribute('car_park_no', value);
     }
 
-    get participant() {
-        return this.getAttribute('participant');
+    get address() {
+        return this.getAttribute('address');
     }
-    set participant(value) {
-        this.setAttribute('participant', value);
+    set address(value) {
+        this.setAttribute('address', value);
     }
 
     // handle attribute updates
@@ -69,18 +62,14 @@ class carParkCharacter extends HTMLElement {
         let element;
 
         switch (attrName) {
-            case 'activity' :
-                element = this.root.querySelector('#activity');
+            case 'car_park_no' :
+                element = this.root.querySelector('#car_park_no');
                 element.textContent = newValue;
             break; 
-            case 'activitytype' :
-                element = this.root.querySelector('#activityType');
+            case 'address' :
+                element = this.root.querySelector('#address');
                 element.textContent = newValue;
-            break;
-            case 'participant' :
-                element = this.root.querySelector('#participant');
-                element.textContent = newValue;
-            break;        
+            break;      
         }
     }
 }

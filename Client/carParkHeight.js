@@ -20,10 +20,11 @@ template.innerHTML = `
         }
     </style>
     <div>
-        <h3 id='address'>Car Park Height</h3>
+        <h3>Car Park Height</h3>
         <hr>
-        <h5>Type: <span id='car_park_no'>Type of activity</span></h5>
-        <h5>Number of Participant(s): <span id='gantry_height'>No. of Participant</span></h5>
+        <h5>Car Park Number: <span id='car_park_no'>Type of activity</span></h5>
+        <h5>Address: <span id='address'>No. of Participant</span></h5>
+        <h5>Gantry Height: <span id='gantry_height'>No. of Participant</span></h5>
     </div>
 `;
 // cpHeight means car Park Height
@@ -42,24 +43,24 @@ class cpHeight extends HTMLElement {
     }
 
     // link attributes to properties 
-    get activity() {
+    get car_park_no() {
         return this.getAttribute('car_park_no');
     }
-    set activity(value) {
+    set car_park_no(value) {
         this.setAttribute('car_park_no', value);
     }
 
-    get activitytype() {
+    get address() {
         return this.getAttribute('address');
     }
-    set activitytype(value) {
+    set address(value) {
         this.setAttribute('address', value);
     }
 
-    get participant() {
+    get gantry_height() {
         return this.getAttribute('gantry_height');
     }
-    set participant(value) {
+    set gantry_height(value) {
         this.setAttribute('gantry_height', value);
     }
 
@@ -69,16 +70,16 @@ class cpHeight extends HTMLElement {
         let element;
 
         switch (attrName) {
-            case 'activity' :
-                element = this.root.querySelector('#activity');
+            case 'car_park_no' :
+                element = this.root.querySelector('#car_park_no');
                 element.textContent = newValue;
             break; 
-            case 'activitytype' :
-                element = this.root.querySelector('#activityType');
+            case 'address' :
+                element = this.root.querySelector('#address');
                 element.textContent = newValue;
             break;
-            case 'participant' :
-                element = this.root.querySelector('#participant');
+            case 'gantry_height' :
+                element = this.root.querySelector('#gantry_height');
                 element.textContent = newValue;
             break;        
         }
