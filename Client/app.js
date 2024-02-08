@@ -1,7 +1,16 @@
-const input = require('readline-sync');
 
-const gantryHeightNum = document.getElementById('gantryHeight');
-const carParkNum = document.getElementById('carParkNo');
+// Name : Reyes Asher Benedict Calaminos
+// Class: DIT/FT/1B/11
+// Admin No: p2210979
+//
+
+// get variables from html file
+const carParkLetters = document.getElementById('carParkLetters');
+const carParkNumber = document.getElementById('carParkNumber');
+const carParkHeight = document.getElementById('carParkHeight');
+const carParkNumFilter = carParkLetters + carParkNumber;
+
+//import { filterByGantryHeight, filterByCharacter } from './fetch.js';
 
 
 // functions shown below here are the data being sent to the front end
@@ -29,6 +38,11 @@ function filterByGantryHeight(gantryHeight) {
         })
 }
 
+document.addEventListener("DOMContentLoaded", (event) => {
+    
+})
+
+// filter by car park characters
 function filterOnChar(char) {
     let charFilter = (char.toUpperCase().toString())
     let url = `http://localhost:8081/readAllCarPark`;
@@ -56,3 +70,5 @@ function filterOnChar(char) {
         })
 
 }
+
+filterOnChar(carParkNumFilter)
