@@ -5,6 +5,9 @@ const app = express();
 const bodyParser = require('body-parser')
 const parse = require("csv-parse").parse;
 
+const cors = require('cors');
+app.use(cors());
+
 app.use(express.json());
 
 let carParkData;

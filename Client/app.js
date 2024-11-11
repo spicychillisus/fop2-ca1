@@ -18,6 +18,12 @@ export async function filterByGantryHeight(gantryHeight) {
         }
         // fetches the data in a form of json
         const data = await response.json();
+        const newData = data.map(e => ({
+            car_park_no: e.car_park_no,
+            address: e.address,
+            gantry_height: e.gantry_height
+        }))
+        console.log(newData);
         return data;
     } catch (error) {
         console.error(error)
@@ -41,11 +47,10 @@ export async function filterOnChar(char) {
                 car_park_no: e.car_park_no, 
                 address: e.address 
             }));
+            console.log(displayData)
         return displayData;
     } catch (error) {
         throw error;
     }
 }
 
-
-//filterOnChar(carParkNumFilter)

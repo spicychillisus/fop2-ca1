@@ -1,3 +1,9 @@
+// Name : Reyes Asher Benedict Calaminos
+// Class: DIT/FT/1B/11
+// Admin No: p2210979
+//
+
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -82,6 +88,18 @@ class cpHeight extends HTMLElement {
                 element = this.root.querySelector('#gantry_height');
                 element.textContent = newValue;
             break;        
+        }
+    }
+
+    async fetchDataAndUpdate(gantryHeight) {
+        try {
+            const data = await filterByGantryHeight(gantryHeight);
+            // Update attributes with fetched data
+            this.car_park_no = data.car_park_no;
+            this.address = data.address;
+            this.gantry_height = data.gantry_height;
+        } catch (error) {
+            console.error(error);
         }
     }
 }

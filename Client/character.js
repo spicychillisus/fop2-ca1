@@ -34,6 +34,12 @@ class carParkCharacter extends HTMLElement {
         this.root = this.attachShadow({ mode: 'closed' });
         let clone = template.content.cloneNode(true);
         this.root.append(clone);
+
+        // Bind event listener for the button
+        this.root.querySelector('#fetchDataButton').addEventListener('click', () => {
+            const characters = this.root.querySelector('#characterInput').value;
+            this.fetchDataAndUpdate(characters);
+        });
     }
 
     // define attributes you need
@@ -62,14 +68,25 @@ class carParkCharacter extends HTMLElement {
         let element;
 
         switch (attrName) {
-            case 'car_park_no' :
+            case 'car_park_no':
                 element = this.root.querySelector('#car_park_no');
                 element.textContent = newValue;
-            break; 
-            case 'address' :
+                break;
+            case 'address':
                 element = this.root.querySelector('#address');
                 element.textContent = newValue;
-            break;      
+                break;
+        }
+    }
+
+    async fetchDataAndUpdate(characters) {
+        try {
+            const data = await filterByCharacters(characters);
+            // Update attributes with fetched data
+            this.car_park_no = data.car_park_no;
+            this.address = data.address;
+        } catch (error) {
+            console.error(error);
         }
     }
 }

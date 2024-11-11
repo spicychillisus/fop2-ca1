@@ -13,32 +13,58 @@ const carParkNumber = document.getElementById('carParkNumber').value;
 const carParkNumFilter = carParkLetters + carParkNumber;
 
 // import the functions from app.js
-import { filterByGantryHeight, filterOnChar } from "./app.js";
+import { filterByGantryHeight, filterOnChar} from "./app.js";
 
-function loadGantryHeightData() {
+function loadCarParkHeights() {
 
-    filterByGantryHeight().then((carPark)=>{
-        const carParkHeight = document.getElementById('carParkHeight').value;
-        const activitiesDiv = document.querySelector("#carParkHeight");
+    filterByGantryHeight().then((data)=>{
+        const carParks = document.querySelector("#carParkHeightss").value;
+        const heightDiv = document.querySelector("#carParkHeightDisplay");
 
-        for (let i = 0; i < carParkHeight; i++) {
-            let height = carPark[i];
+        // for loop to display the data in the web component
+        for (let i = 0; i < carParks; i++) {
+            let data = carParks[i];
             const heights = document.createElement('car-park-height');
-            heights.setAttribute('car_park_no', height.car_park_no);
-            heights.setAttribute('address', height.address);
-            heights.setAttribute('gantry_height', height.gantry_height);
-            activitiesDiv.append(heights);            
+            heights.setAttribute('car_park_no', data.car_park_no);
+            heights.setAttribute('address', data.address);
+            heights.setAttribute('gantry_height', data.gantry_height);
+            heightDiv.append(heights);            
         }
     });
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
-    loadGantryHeightData();
+    loadCarParkNum();
 
-    document.querySelector("#refreshButton").addEventListener("click", (event)=>{
-        document.querySelector("#carParkHeight").replaceChildren();
-        loadGantryHeightData();
+    document.querySelector("#submit").addEventListener("click", (event)=>{
+        document.querySelector("#carParkHeightDisplay").replaceChildren();
+        loadCarParkNum();
     });
 });
 
+
+function loadCarParkNum() {
+
+    filterOnChar().then((data)=>{
+
+
+        for (let i = 0; i < carParkNumFilter; i++) {
+            let data = populationArray[i];
+            const heights = document.createElement('car-park-character');
+            heights.setAttribute('car_park_no', data.car_park_no);
+            heights.setAttribute('address', data.address);
+            heightDiv.append(heights);            
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    console.log("DOM fully loaded and parsed");
+    loadCarParkHeights();
+
+    document.querySelector("#submit").addEventListener("click", (event)=>{
+        document.querySelector("#carParkNumDisplay").replaceChildren();
+        loadCarParkHeights();
+    });
+});
